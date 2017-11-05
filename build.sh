@@ -1,5 +1,5 @@
 protoc -I/usr/local/include -I. \
-  --go_out=plugins=micro:$GOPATH/src/github.com/ewanvalentine/mgo-proto-test \
+  --go_out=plugins=micro:$GOPATH/src \
   -I$GOPATH/src/github.com/grpc-ecosystem/grpc-gateway/third_party/googleapis \
   proto/greeter/greeter.proto
 
