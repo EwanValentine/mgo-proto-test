@@ -15,20 +15,46 @@
     "application/json"
   ],
   "paths": {
-    "/api/v1/hello/{name}": {
+    "/api/v1/greetings": {
+      "post": {
+        "operationId": "PostGreeting",
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/greeterResponse"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/greeterRequest"
+            }
+          }
+        ],
+        "tags": [
+          "Greeter"
+        ]
+      }
+    },
+    "/api/v1/greetings/{id}": {
       "get": {
         "operationId": "Hello",
         "responses": {
           "200": {
             "description": "",
             "schema": {
-              "$ref": "#/definitions/greeterHelloResponse"
+              "$ref": "#/definitions/greeterResponse"
             }
           }
         },
         "parameters": [
           {
-            "name": "name",
+            "name": "id",
             "in": "path",
             "required": true,
             "type": "string"
@@ -44,6 +70,10 @@
     "greeterGreeting": {
       "type": "object",
       "properties": {
+        "id": {
+          "type": "string",
+          "title": "@inject_tag: json:\"json\" bson:\"_id,omitempty\""
+        },
         "msg": {
           "type": "string"
         },
@@ -53,10 +83,18 @@
         }
       }
     },
-    "greeterHelloResponse": {
+    "greeterRequest": {
       "type": "object",
       "properties": {
-        "greeting": {
+        "body": {
+          "$ref": "#/definitions/greeterGreeting"
+        }
+      }
+    },
+    "greeterResponse": {
+      "type": "object",
+      "properties": {
+        "body": {
           "$ref": "#/definitions/greeterGreeting"
         }
       }

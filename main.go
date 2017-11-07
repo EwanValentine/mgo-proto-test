@@ -2,11 +2,11 @@ package main
 
 import (
 	"fmt"
-	"log"
 	"time"
 
 	proto "github.com/ewanvalentine/mgo-proto-test/proto/greeter"
 	mgo "gopkg.in/mgo.v2"
+	"gopkg.in/mgo.v2/bson"
 
 	grpc "github.com/micro/go-grpc"
 	micro "github.com/micro/go-micro"
@@ -17,10 +17,25 @@ type Repository struct {
 	session *mgo.Session
 }
 
-func (repo *Repository) Get() *proto.Greeting {
+func (repo *Repository) Get(id string) (*proto.Greeting, error) {
 	var greeting *proto.Greeting
+	err := repo.collection().FindId(bson.ObjectIdHex(id)).One(&greeting)
+	if err != nil {
+		return nil, err
+	}
+	return greeting, nil
+}
 
-	return greeting
+func (repo *Repository) Post(greeting *proto.Greeting) (*proto.Greeting, error) {
+	err := repo.collection().Insert(greeting)
+	if err != nil {
+		return greeting, err
+	}
+	return greeting, nil
+}
+
+func (repo *Repository) collection() *mgo.Collection {
+	return repo.session.DB("greeter").C("greetings")
 }
 
 func (repo *Repository) Close() {
@@ -28,17 +43,32 @@ func (repo *Repository) Close() {
 }
 
 type Greeter struct {
+	session *mgo.Session
 }
 
 func (g *Greeter) repo() *Repository {
 	return &Repository{g.session.Copy()}
 }
 
-func (g *Greeter) Hello(ctx context.Context, req *proto.HelloRequest, rsp *proto.HelloResponse) error {
-	log.Println(req.Name)
+func (g *Greeter) Hello(ctx context.Context, req *proto.HelloRequest, res *proto.Response) error {
 	repo := g.repo()
 	defer repo.Close()
-	rsp.Greeting = "Hello " + req.Name
+	greeting, err := repo.Get(req.Id)
+	if err != nil {
+		return err
+	}
+	res.Body = greeting
+	return nil
+}
+
+func (g *Greeter) PostGreeting(ctx context.Context, req *proto.Request, res *proto.Response) error {
+	repo := g.repo()
+	defer repo.Close()
+	greeting, err := repo.Post(req.Body)
+	if err != nil {
+		return err
+	}
+	res.Body = greeting
 	return nil
 }
 
@@ -62,8 +92,10 @@ func main() {
 	// Init will parse the command line flags.
 	service.Init()
 
+	greeter := &Greeter{session}
+
 	// Register handler
-	proto.RegisterGreeterHandler(service.Server(), new(Greeter))
+	proto.RegisterGreeterHandler(service.Server(), greeter)
 
 	// Run the server
 	if err := service.Run(); err != nil {
