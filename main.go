@@ -4,10 +4,10 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/ewanvalentine/mgo-proto-test/api"
-	"github.com/ewanvalentine/mgo-proto-test/drivers"
+	"github.com/EwanValentine/mgo-proto-test/api"
+	"github.com/EwanValentine/mgo-proto-test/drivers"
 
-	proto "github.com/ewanvalentine/mgo-proto-test/proto/greeter"
+	proto "github.com/EwanValentine/mgo-proto-test/proto/greeter"
 
 	grpc "github.com/micro/go-grpc"
 	micro "github.com/micro/go-micro"

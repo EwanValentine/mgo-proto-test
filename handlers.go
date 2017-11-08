@@ -4,7 +4,7 @@ import (
 	"context"
 	"encoding/hex"
 
-	proto "github.com/ewanvalentine/mgo-proto-test/proto/greeter"
+	proto "github.com/EwanValentine/mgo-proto-test/proto/greeter"
 
 	mgo "gopkg.in/mgo.v2"
 )

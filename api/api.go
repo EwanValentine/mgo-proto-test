@@ -3,7 +3,7 @@ package api
 import (
 	"net/http"
 
-	api "github.com/ewanvalentine/mgo-proto-test/api/proto/greeter"
+	api "github.com/EwanValentine/mgo-proto-test/api/proto/greeter"
 	"github.com/grpc-ecosystem/grpc-gateway/runtime"
 	"golang.org/x/net/context"
 	"google.golang.org/grpc"

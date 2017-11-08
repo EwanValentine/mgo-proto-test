@@ -23,6 +23,7 @@ deployment:
   production:
     branch: ['master']
     commands:
+      - sh ./build.sh
       - docker build -t "$DOCKER_TAG" .
       - docker tag "$DOCKER_TAG" "$DOCKER_TAG_PREFIX:latest"
       - sudo /opt/google-cloud-sdk/bin/gcloud docker -- push $DOCKER_TAG
@@ -31,6 +32,7 @@ deployment:
   staging:
     branch: ['develop']
     commands:
+      - sh ./build.sh
       - docker build -t "$DOCKER_TAG" .
       - docker tag "$DOCKER_TAG" "$DOCKER_TAG_PREFIX:develop"
       - sudo /opt/google-cloud-sdk/bin/gcloud docker -- push $DOCKER_TAG
