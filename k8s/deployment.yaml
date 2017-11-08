@@ -20,7 +20,7 @@ spec:
           ports:
           - containerPort: 12017
         - name: my-service
-          image: eu.gcr.io/tabb-168314/my-service:staging
+          image: eu.gcr.io/tabb-168314/my-service:production
           ports:
           - containerPort: 50051
           - containerPort: 8080
