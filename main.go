@@ -4,7 +4,9 @@ import (
 	"fmt"
 	"time"
 
+	"github.com/ewanvalentine/mgo-proto-test/api"
 	"github.com/ewanvalentine/mgo-proto-test/drivers"
+
 	proto "github.com/ewanvalentine/mgo-proto-test/proto/greeter"
 
 	grpc "github.com/micro/go-grpc"
@@ -29,6 +31,8 @@ func main() {
 
 	// Register handler
 	proto.RegisterGreeterHandler(service.Server(), greeter)
+
+	go api.Init()
 
 	// Run the server
 	if err := service.Run(); err != nil {

@@ -1,0 +1,12 @@
+name: "my-service"
+port: "80"
+target_port: "8080"
+container_name: "my-service"
+repo: "eu.gcr.io"
+project: "tabb-168314"
+
+staging:
+  image: "eu.gcr.io/tabb-168314/my-service:develop"
+
+production:
+  image: "eu.gcr.io/tabb-168314/my-service:latest"

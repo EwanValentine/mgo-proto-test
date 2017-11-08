@@ -1,17 +1,15 @@
-package main
+package api
 
 import (
-	"flag"
 	"net/http"
 
 	api "github.com/ewanvalentine/mgo-proto-test/api/proto/greeter"
-	"github.com/golang/glog"
 	"github.com/grpc-ecosystem/grpc-gateway/runtime"
 	"golang.org/x/net/context"
 	"google.golang.org/grpc"
 )
 
-func run() error {
+func Init() error {
 	ctx := context.Background()
 	ctx, cancel := context.WithCancel(ctx)
 	defer cancel()
@@ -25,14 +23,4 @@ func run() error {
 	}
 
 	return http.ListenAndServe(":8080", mux)
-}
-
-func main() {
-	flag.Parse()
-
-	defer glog.Flush()
-
-	if err := run(); err != nil {
-		glog.Fatal(err)
-	}
 }

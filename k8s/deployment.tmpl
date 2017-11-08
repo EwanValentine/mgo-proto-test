@@ -1,0 +1,47 @@
+
+---
+
+# API
+
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: {{name}}
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: {{name}}
+    spec:
+        containers:
+        - name: mongo
+          image: mongo:latest
+          ports:
+          - containerPort: 12017
+        - name: {{name}}
+          image: {{image}}
+          ports:
+          - containerPort: 50051
+          - containerPort: {{target_port}}
+          env:
+            - name: DB_HOST
+              value: "localhost"
+            - name: DB_NAME
+              value: greetings
+            - name: MICRO_SERVICE_ADDRESS
+              value: 0.0.0.0:50051
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{name}}
+spec:
+  ports:
+  - name: {{name}}-http
+    port: {{port}}
+    targetPort: {{target_port}}
+    protocol: TCP
+  selector:
+    app: {{name}}
