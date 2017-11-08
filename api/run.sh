@@ -1,1 +1,1 @@
-go run api.go
+go run main.go

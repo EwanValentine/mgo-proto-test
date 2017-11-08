@@ -16,6 +16,42 @@
   ],
   "paths": {
     "/api/v1/greetings": {
+      "get": {
+        "operationId": "GetGreetings",
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/greeterResponse"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body.id",
+            "description": "@inject_tag: bson:\"_id,omitempty\" json:\"id\".",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "body.msg",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "body.friendliness",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "format": "int32"
+          }
+        ],
+        "tags": [
+          "Greeter"
+        ]
+      },
       "post": {
         "operationId": "PostGreeting",
         "responses": {
@@ -43,7 +79,7 @@
     },
     "/api/v1/greetings/{id}": {
       "get": {
-        "operationId": "Hello",
+        "operationId": "GetGreeting",
         "responses": {
           "200": {
             "description": "",
@@ -72,7 +108,7 @@
       "properties": {
         "id": {
           "type": "string",
-          "title": "@inject_tag: json:\"json\" bson:\"_id,omitempty\""
+          "title": "@inject_tag: bson:\"_id,omitempty\" json:\"id\""
         },
         "msg": {
           "type": "string"
@@ -96,6 +132,12 @@
       "properties": {
         "body": {
           "$ref": "#/definitions/greeterGreeting"
+        },
+        "collection": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/greeterGreeting"
+          }
         }
       }
     }

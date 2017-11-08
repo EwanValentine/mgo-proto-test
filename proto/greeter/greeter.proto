@@ -5,7 +5,7 @@ package go.micro.srv.greeter;
 import "google/api/annotations.proto";
 
 service Greeter {
-	rpc Hello(HelloRequest) returns (Response) {
+	rpc GetGreeting(HelloRequest) returns (Response) {
       option (google.api.http) = {
           get: "/api/v1/greetings/{id}"
       };
@@ -17,10 +17,12 @@ service Greeter {
 			body: "*"
 		};
 	}
-}
 
-message HelloRequest {
-	string id = 1;
+	rpc GetGreetings (Request) returns (Response) {
+		option (google.api.http) = {
+			get: "/api/v1/greetings"
+		};
+	}
 }
 
 message Request {
@@ -29,11 +31,16 @@ message Request {
 
 message Response {
 	Greeting body = 1;
+	repeated Greeting collection = 2;
+}
+
+message HelloRequest {
+	string id = 1;
 }
 
 message Greeting {
 
-	// @inject_tag: json:"json" bson:"_id,omitempty"
+	// @inject_tag: bson:"_id,omitempty" json:"id"
 	string id = 1;
   string msg = 2;
 	int32 friendliness = 3;
