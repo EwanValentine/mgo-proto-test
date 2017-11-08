@@ -19,10 +19,12 @@ dependencies:
     - sudo /opt/google-cloud-sdk/bin/gcloud config set compute/zone ${CLOUDSDK_COMPUTE_ZONE}
     - sudo /opt/google-cloud-sdk/bin/gcloud --quiet container clusters get-credentials $GCLOUD_CLUSTER_NAME
     - sudo chown -R ubuntu:ubuntu /home/ubuntu/.kube
+    - curl -O https://raw.githubusercontent.com/EwanValentine/k8ie/master/install.sh && sh ./install.sh
 deployment:
   production:
     branch: ['master']
     commands:
+      - k8ie deploy --env=production
       - docker build -t "$DOCKER_TAG" .
       - docker tag "$DOCKER_TAG" "$DOCKER_TAG_PREFIX:latest"
       - sudo /opt/google-cloud-sdk/bin/gcloud docker -- push $DOCKER_TAG
@@ -31,6 +33,7 @@ deployment:
   staging:
     branch: ['develop']
     commands:
+      - k8ie deploy --env=staging
       - docker build -t "$DOCKER_TAG" .
       - docker tag "$DOCKER_TAG" "$DOCKER_TAG_PREFIX:develop"
       - sudo /opt/google-cloud-sdk/bin/gcloud docker -- push $DOCKER_TAG

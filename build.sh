@@ -24,4 +24,4 @@ protoc -I/usr/local/include -I. \
 protoc-go-inject-tag -input=proto/greeter/greeter.pb.go
 protoc-go-inject-tag -input=api/proto/greeter/greeter.pb.go
 
-GOOS=linux GOARCH=amd64 go build -o svc
+GOOS=linux GOARCH=amd64 go build
