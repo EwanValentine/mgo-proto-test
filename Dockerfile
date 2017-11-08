@@ -1,6 +1,6 @@
 FROM alpine
 
-MKDIR /app
+RUN mkdir -p /app
 
 WORKDIR /app
 
