@@ -31,6 +31,8 @@ spec:
               value: greetings
             - name: MICRO_SERVICE_ADDRESS
               value: 0.0.0.0:50051
+            - name: MICRO_REGISTRY
+              value: "kubernetes"
 ---
 
 apiVersion: v1
