@@ -11,6 +11,7 @@ import (
 
 	grpc "github.com/micro/go-grpc"
 	micro "github.com/micro/go-micro"
+	_ "github.com/micro/go-plugins/registry/kubernetes"
 )
 
 func main() {
